@@ -1,5 +1,10 @@
 import { useState } from 'react'
 
+const Title = ({title}) => <h1>{title}</h1>
+const Anecdote = ({text,votes}) => <><p>{text}</p><p>has {votes} votes</p></>
+
+
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -22,16 +27,20 @@ const App = () => {
 
   const nextAnecdote = () => setSelected(Math.floor(Math.random() * anecdotes.length))
 
+  const getIndexOfMostVoted = () => {
+    const copy = [...votes]
+    // note: will get first most highest voted in case of tie.
+    return copy.indexOf(Math.max(...copy))
+  }
+
   return (
     <div>
-      <p>
-        {anecdotes[selected]}
-      </p>
-      <p>
-        has {votes[selected]} votes
-      </p>
+      <Title title="Anecdote of the day" />
+      <Anecdote text={anecdotes[selected]} votes={votes[selected]} />
       <button onClick={updateVotes}>vote</button>
       <button onClick={nextAnecdote}>Next Anecdote</button>
+      <Title title="Anecdote with most votes"/>
+      <Anecdote text={anecdotes[getIndexOfMostVoted()]} votes={votes[getIndexOfMostVoted()]} />
     </div>
   )
 }
