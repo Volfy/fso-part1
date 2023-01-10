@@ -6,14 +6,16 @@ const Button = ({handleClick, text}) => <button onClick={handleClick}>{text}</bu
 
 const Stat = ({text, count}) => <p>{text} {count}</p>
 
+const calcAvg = (good, neutral, bad) => (good-bad)/(good+bad+neutral)
+const calcPos = (good, neutral, bad) => (good*100)/(good+bad+neutral)
+
 const App = () => {
   // save clicks of each button to its own state
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
 
-  // show buttons, title: give feedback
-  // show stats, good, neut, bad amts
+  // total number feedback, avg, % pos
   return (
     <div>
       <Title title="give feedback" />
@@ -23,7 +25,10 @@ const App = () => {
       <Title title="statistics" />
       <Stat text="good" count={good} />
       <Stat text="neutral" count={neutral} />
-      <Stat text="bad" count={bad} />      
+      <Stat text="bad" count={bad} />
+      <Stat text="all" count={bad+good+neutral} />
+      <Stat text="average" count={calcAvg(good,neutral,bad)} />
+      <Stat text="positive" count={calcPos(good,neutral,bad)} />
     </div>
   )
 }
