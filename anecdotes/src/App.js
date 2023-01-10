@@ -10,17 +10,28 @@ const App = () => {
     'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.',
     'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients.'
   ]
-   
+  
+  const [votes, setVotes] = useState(new Array(anecdotes.length).fill(0));
   const [selected, setSelected] = useState(0)
 
-  const handleClick = () => setSelected(Math.floor(Math.random() * anecdotes.length))
+  const updateVotes = () => {
+    const copy = [...votes]
+    copy[selected] += 1
+    setVotes(copy)
+  }
+
+  const nextAnecdote = () => setSelected(Math.floor(Math.random() * anecdotes.length))
 
   return (
     <div>
       <p>
         {anecdotes[selected]}
       </p>
-      <button onClick={handleClick}>New Anecdote</button>
+      <p>
+        has {votes[selected]} votes
+      </p>
+      <button onClick={updateVotes}>vote</button>
+      <button onClick={nextAnecdote}>Next Anecdote</button>
     </div>
   )
 }
