@@ -4,7 +4,31 @@ const Title = ({title}) => <h1>{title}</h1>
 
 const Button = ({handleClick, text}) => <button onClick={handleClick}>{text}</button> 
 
-const Stat = ({text, count}) => <p>{text} {count}</p>
+const StatisticLine = ({text, value}) => <p>{text} {value}</p>
+
+const Statistics = ({good, neutral, bad}) => {
+  const title = <Title title="statistics" />
+
+  if (good || neutral || bad){
+    return (
+      <>
+        {title}
+        <StatisticLine text="good" value={good} />
+        <StatisticLine text="neutral" value={neutral} />
+        <StatisticLine text="bad" value={bad} />
+        <StatisticLine text="all" value={bad+good+neutral} />
+        <StatisticLine text="average" value={calcAvg(good,neutral,bad)} />
+        <StatisticLine text="positive" value={calcPos(good,neutral,bad)} />
+      </>
+    )
+  }
+  return (
+    <>
+      {title}
+      <p>No Feedback given</p>
+    </>
+  )
+}
 
 const calcAvg = (good, neutral, bad) => (good-bad)/(good+bad+neutral)
 const calcPos = (good, neutral, bad) => (good*100)/(good+bad+neutral)
@@ -22,13 +46,7 @@ const App = () => {
       <Button handleClick={() => setGood(good + 1)} text="good"/>
       <Button handleClick={() => setNeutral(neutral + 1)} text="neutral"/>
       <Button handleClick={() => setBad(bad + 1)} text="bad"/>
-      <Title title="statistics" />
-      <Stat text="good" count={good} />
-      <Stat text="neutral" count={neutral} />
-      <Stat text="bad" count={bad} />
-      <Stat text="all" count={bad+good+neutral} />
-      <Stat text="average" count={calcAvg(good,neutral,bad)} />
-      <Stat text="positive" count={calcPos(good,neutral,bad)} />
+      <Statistics good={good} neutral={neutral} bad={bad}/>
     </div>
   )
 }
